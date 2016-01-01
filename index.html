@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Commander by meskyanichi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Commander</h1>
+      <h2 class="project-tagline">Command-line interface builder for the Crystal programming language.</h2>
+      <a href="https://github.com/meskyanichi/commander" class="btn">View on GitHub</a>
+      <a href="https://github.com/meskyanichi/commander/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/meskyanichi/commander/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="commander" class="anchor" href="#commander" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commander</h2>
+
+<p>Command-line interface builder for the <a href="http://crystal-lang.org">Crystal</a> programming language. </p>
+
+<h4>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h4>
+
+<p>Add this to your application's <code>shard.yml</code>:</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">dependencies:</span></span>
+  <span class="pl-s"><span class="pl-ent">commander:</span></span>
+    <span class="pl-s"><span class="pl-ent">github:</span> <span class="pl-s">meskyanichi/commander</span></span></pre></div>
+
+<h4>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h4>
+
+<p>Practically everything you need to know in one example:</p>
+
+<div class="highlight highlight-source-crystal"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>commander<span class="pl-pds">"</span></span>
+
+cli <span class="pl-k">=</span> <span class="pl-c1">Commander</span>::<span class="pl-c1">Command</span>.<span class="pl-k">new </span><span class="pl-k">do </span>|<span class="pl-smi">cmd</span>|
+  cmd.use <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>my_program<span class="pl-pds">"</span></span>
+  cmd.long <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>my program's (long) description.<span class="pl-pds">"</span></span>
+
+  cmd.flags.add <span class="pl-k">do </span>|<span class="pl-smi">flag</span>|
+    flag.name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>env<span class="pl-pds">"</span></span>
+    flag.short <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>-e<span class="pl-pds">"</span></span>
+    flag.long <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>--env<span class="pl-pds">"</span></span>
+    flag.default <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>development<span class="pl-pds">"</span></span>
+    flag.description <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>The environment to run in.<span class="pl-pds">"</span></span>
+  <span class="pl-k">end</span>
+
+  cmd.flags.add <span class="pl-k">do </span>|<span class="pl-smi">flag</span>|
+    flag.name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>port<span class="pl-pds">"</span></span>
+    flag.short <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>-p<span class="pl-pds">"</span></span>
+    flag.long <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>--port<span class="pl-pds">"</span></span>
+    flag.default <span class="pl-k">=</span> <span class="pl-c1">8080</span>
+    flag.description <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>The port to bind to.<span class="pl-pds">"</span></span>
+  <span class="pl-k">end</span>
+
+  cmd.flags.add <span class="pl-k">do </span>|<span class="pl-smi">flag</span>|
+    flag.name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>timeout<span class="pl-pds">"</span></span>
+    flag.short <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>-t<span class="pl-pds">"</span></span>
+    flag.long <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>--timeout<span class="pl-pds">"</span></span>
+    flag.default <span class="pl-k">=</span> <span class="pl-c1">29.5</span>
+    flag.description <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>The wait time before dropping the connection.<span class="pl-pds">"</span></span>
+  <span class="pl-k">end</span>
+
+  cmd.flags.add <span class="pl-k">do </span>|<span class="pl-smi">flag</span>|
+    flag.name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>verbose<span class="pl-pds">"</span></span>
+    flag.short <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>-v<span class="pl-pds">"</span></span>
+    flag.long <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>--verbose<span class="pl-pds">"</span></span>
+    flag.default <span class="pl-k">=</span> <span class="pl-c1">false</span>
+    flag.description <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Enable more verbose logging.<span class="pl-pds">"</span></span>
+  <span class="pl-k">end</span>
+
+  cmd.run <span class="pl-k">do </span>|<span class="pl-smi">options</span>, <span class="pl-smi">arguments</span>|
+    options.string[<span class="pl-s"><span class="pl-pds">"</span>env<span class="pl-pds">"</span></span>]    <span class="pl-c"># =&gt; "development"</span>
+    options.int[<span class="pl-s"><span class="pl-pds">"</span>port<span class="pl-pds">"</span></span>]      <span class="pl-c"># =&gt; 8080</span>
+    options.float[<span class="pl-s"><span class="pl-pds">"</span>timeout<span class="pl-pds">"</span></span>] <span class="pl-c"># =&gt; 29.5</span>
+    options.bool[<span class="pl-s"><span class="pl-pds">"</span>verbose<span class="pl-pds">"</span></span>]  <span class="pl-c"># =&gt; false</span>
+    arguments                <span class="pl-c"># =&gt; Array(String)</span>
+  <span class="pl-k">end</span>
+
+  cmd.commands.add <span class="pl-k">do </span>|<span class="pl-smi">cmd</span>|
+    cmd.use <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>kill &lt;pid&gt;<span class="pl-pds">"</span></span>
+    cmd.short <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Kills server by pid.<span class="pl-pds">"</span></span>
+    cmd.long <span class="pl-k">=</span> cmd.short
+    cmd.run <span class="pl-k">do </span>|<span class="pl-smi">options</span>, <span class="pl-smi">arguments</span>|
+      arguments <span class="pl-c"># =&gt; ["62719"]</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">Commander</span>.run(cli, <span class="pl-c1">ARGV</span>)</pre></div>
+
+<p>Here's what the help page looks like for this configuration:</p>
+
+<pre><code>$ my_program help
+
+my_program - my program's (long) description.
+
+Usage:
+  my_program [command] [flags] [arguments]
+
+Commands:
+  help [command]  # Help about any command.
+  kill &lt;pid&gt;      # Kills server by pid.
+
+Flags:
+  -e, --env      # The environment to run in. default: 'development'.
+  -h, --help     # Help for this command. default: 'false'.
+  -p, --port     # The port to bind to. default: '8080'.
+  -t, --timeout  # The wait time before dropping the connection. default: '29.5'.
+  -v, --verbose  # Enable more verbose logging. default: 'false'.
+</code></pre>
+
+<p>This is how you override the default options and pass in additional arguments:</p>
+
+<pre><code>$ my_program -ve production --port 8443 --timeout=25 arg1 arg2 arg3
+</code></pre>
+
+<div class="highlight highlight-source-crystal"><pre>cmd.run <span class="pl-k">do </span>|<span class="pl-smi">options</span>, <span class="pl-smi">arguments</span>|
+  options.string[<span class="pl-s"><span class="pl-pds">"</span>env<span class="pl-pds">"</span></span>]    <span class="pl-c"># =&gt; "production"</span>
+  options.int[<span class="pl-s"><span class="pl-pds">"</span>port<span class="pl-pds">"</span></span>]      <span class="pl-c"># =&gt; 8443</span>
+  options.float[<span class="pl-s"><span class="pl-pds">"</span>timeout<span class="pl-pds">"</span></span>] <span class="pl-c"># =&gt; 25.0</span>
+  options.bool[<span class="pl-s"><span class="pl-pds">"</span>verbose<span class="pl-pds">"</span></span>]  <span class="pl-c"># =&gt; true</span>
+  arguments                <span class="pl-c"># =&gt; ["arg1", "arg2", "arg3"]</span>
+<span class="pl-k">end</span></pre></div>
+
+<h4>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>Define commands recursively.</li>
+<li>Define flags on a per-command basis.
+
+<ul>
+<li>Short argument flags (<code>-p 8080</code>)</li>
+<li>Short boolean flags (<code>-f</code>)</li>
+<li>Multi-short flags (<code>-fp 8080</code>, equivalent to <code>-f -p 8080</code>)</li>
+<li>Long argument flags (<code>--port 8080</code>, <code>--port=8080</code>)</li>
+<li>Long boolean flags (<code>--force</code>)</li>
+<li>Reuse flags for multiple commands (<code>verbose = Commander::Flag.new</code>)</li>
+<li>Define defaults for each flag</li>
+<li>Automatically validates, parses and casts to the correct type</li>
+<li>Automatically passes all parsed <code>options</code> to <code>cmd.run</code>
+</li>
+</ul>
+</li>
+<li>Receive additional cli arguments per command (<code>arguments</code> in <code>cmd.run</code>)</li>
+<li>Automatically generates a help page for each command
+
+<ul>
+<li>Generates a <code>help</code> command for each command to access the help page</li>
+<li>Generates <code>-h, --help</code> flags for each command to access to help page</li>
+</ul>
+</li>
+<li>Provide <code>Commander.run(cli, ARGV)</code> to handle end-user input exceptions.</li>
+</ul>
+
+<h4>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h4>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/meskyanichi/commander/fork">https://github.com/meskyanichi/commander/fork</a> )</li>
+<li>Create your feature branch (git checkout -b my-new-feature)</li>
+<li>Commit your changes (git commit -am 'Add some feature')</li>
+<li>Push to the branch (git push origin my-new-feature)</li>
+<li>Create a new Pull Request</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/meskyanichi/commander">Commander</a> is maintained by <a href="https://github.com/meskyanichi">meskyanichi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
