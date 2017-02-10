@@ -109,7 +109,6 @@ class Commander::Command
       flag.name = "help"
       flag.long = "--help"
       flag.short = "-h"
-      flag.default = false
       flag.description = "Help for this command."
     end
   end
