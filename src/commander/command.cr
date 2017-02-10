@@ -152,8 +152,11 @@ class Commander::Command
         result += "    #{flag.long}"
       end
 
-      description = "#{flag.description} default: '#{flag.default}'."
-
+      if flag.default.nil?
+        description = "#{flag.description}"
+      else
+        description = "#{flag.description} default: '#{flag.default}'."
+      end
       {result, description}
     end
 

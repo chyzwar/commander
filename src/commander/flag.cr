@@ -81,7 +81,6 @@ class Commander::Flag
     validate_long_format!
     validate_short_format!
     validate_flag_availability!
-    validate_default!
     validate_description!
   end
 
@@ -112,14 +111,6 @@ class Commander::Flag
     raise Exception.new(
       "Flag '#{name}' requires at least a " +
         "short flag or a long flag.")
-  end
-
-  private def validate_default!
-    return unless default.nil?
-    types = [String, Int32, Int64, Float32, Float64, Bool]
-    raise Exception.new(
-      "Flag requires a default value " +
-        "-- use #{types.join(", ")}")
   end
 
   private def validate_description!
